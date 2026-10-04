@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hotelmatch-postgres
+    environment:
+      POSTGRES_DB: hotelmatch
+      POSTGRES_USER: hotelmatch
+      POSTGRES_PASSWORD: hotelmatch
+    ports:
+      - "5432:5432"
+    volumes:
+      - hotelmatch-pgdata:/var/lib/postgresql/data
+
+volumes:
+  hotelmatch-pgdata:
