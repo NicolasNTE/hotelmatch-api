@@ -3,8 +3,25 @@
 RESTful API de **HotelMatch**, plataforma web de recomendación de habitaciones por porcentaje de compatibilidad con el
 perfil de viaje del huésped. Curso 1ASI0705 Arquitectura de Aplicaciones Web (UPC, ciclo 2026-2).
 
-Este repositorio corresponde al **backend** (Web Services). La landing page y la aplicación web (Angular) van en
-repositorios separados, como establece el informe TB1.
+Este repositorio corresponde al **backend** (Web Services). El informe TB1 prevé la aplicación web (Angular) en un
+repositorio separado. La **landing page** vive provisionalmente en la carpeta [`docs/`](docs/) para publicarla con
+GitHub Pages; puede moverse a su propio repositorio sin cambios (es HTML, CSS y JavaScript estáticos).
+
+## Landing page (`docs/`)
+
+Sitio estático (HTML5, CSS3 y JavaScript, sin dependencias) con la guía de estilos del informe TB1: hero con buscador,
+funcionamiento en tres pasos, explicación del ranking, propuesta para hoteles, sostenibilidad y llamado a la acción.
+Incluye internacionalización `es-419` / `en-US`, atributos ARIA, enlace a [términos y condiciones](docs/terminos.html)
+en el pie, y diseño responsive (puntos de quiebre en 640 y 1024 px).
+
+```bash
+cd docs
+python -m http.server 5500
+```
+
+Abrir <http://localhost:5500>. Las URL de la aplicación Angular, de Swagger y del repositorio se cambian en un solo
+archivo: [`docs/assets/config.js`](docs/assets/config.js). Para publicarla: **Settings > Pages > Deploy from a branch >
+`main` / carpeta `/docs`**.
 
 ## Stack
 

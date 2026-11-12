@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es-419">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HotelMatch · Encuentra la habitación que encaja con tu viaje</title>
+  <meta name="description" content="HotelMatch ordena las habitaciones de hoteles boutique según la compatibilidad con el propósito de tu viaje y te explica por qué.">
+  <meta name="theme-color" content="#12263a">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido" data-i18n="skip">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#inicio" aria-label="HotelMatch">
+        <span class="brand__mark" aria-hidden="true">H</span>HotelMatch
+      </a>
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu"
+              data-i18n-attr="aria-label:nav.menu" aria-label="Abrir menú">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav id="site-menu" class="site-menu" data-i18n-attr="aria-label:nav.label" aria-label="Navegación principal">
+        <a href="#como-funciona" data-i18n="nav.how">Cómo funciona</a>
+        <a href="#ia" data-i18n="nav.ai">Inteligencia artificial</a>
+        <a href="#hoteles" data-i18n="nav.hotels">Para hoteles</a>
+        <a href="#sostenibilidad" data-i18n="nav.sustain">Sostenibilidad</a>
+        <div class="lang-switch" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Idioma">
+          <button type="button" class="lang-btn" data-lang="es-419" lang="es-419" aria-pressed="true">ES</button>
+          <button type="button" class="lang-btn" data-lang="en-US" lang="en-US" aria-pressed="false">EN</button>
+        </div>
+        <a class="btn btn--secondary" data-href="login" href="#" data-i18n="nav.login">Ingresar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div>
+          <span class="eyebrow" data-i18n="hero.eyebrow">Recomendación explicada, no un listado plano</span>
+          <h1 id="hero-title" data-i18n="hero.title">Cuéntanos tu viaje. Te mostramos la habitación que encaja.</h1>
+          <p class="lead" data-i18n="hero.lead">HotelMatch calcula un porcentaje de compatibilidad entre cada habitación y el propósito de tu estadía, y te explica por qué.</p>
+        </div>
+
+        <form id="search-form" class="search-card" novalidate>
+          <fieldset>
+            <legend data-i18n="search.legend">Busca tu estadía</legend>
+            <div class="field-row">
+              <div class="field">
+                <label for="checkIn" data-i18n="search.checkin">Llegada</label>
+                <input id="checkIn" name="checkIn" type="date" required aria-describedby="search-error">
+              </div>
+              <div class="field">
+                <label for="checkOut" data-i18n="search.checkout">Salida</label>
+                <input id="checkOut" name="checkOut" type="date" required aria-describedby="search-error">
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="guests" data-i18n="search.guests">Huéspedes</label>
+                <input id="guests" name="guests" type="number" min="1" max="10" value="2" required>
+              </div>
+              <div class="field">
+                <label for="purpose" data-i18n="search.purpose">Motivo del viaje</label>
+                <select id="purpose" name="purpose">
+                  <option value="COUPLE" data-i18n="purpose.COUPLE">Pareja</option>
+                  <option value="FAMILY" data-i18n="purpose.FAMILY">Familia</option>
+                  <option value="BUSINESS" data-i18n="purpose.BUSINESS">Negocios</option>
+                  <option value="REST" data-i18n="purpose.REST">Descanso</option>
+                  <option value="TOURISM" data-i18n="purpose.TOURISM">Turismo</option>
+                  <option value="EVENT" data-i18n="purpose.EVENT">Evento</option>
+                </select>
+              </div>
+            </div>
+            <p id="search-error" class="form-error" role="alert" hidden></p>
+            <button class="btn btn--primary" type="submit" data-i18n="search.submit">Ver mis habitaciones</button>
+            <p class="form-hint" data-i18n="search.hint">Sin anticipo y sin registro para empezar a comparar.</p>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section section--white" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="how-title" data-i18n="how.title">Cómo funciona en tres pasos</h2>
+          <p class="lead" data-i18n="how.lead">Menos de dos minutos entre abrir la página y ver tu ranking.</p>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <h3 data-i18n="how.s1.title">Busca tu estadía</h3>
+            <p data-i18n="how.s1.text">Indica fechas y cuántas personas viajan. Solo mostramos habitaciones disponibles.</p>
+          </li>
+          <li class="step">
+            <h3 data-i18n="how.s2.title">Cuéntanos tu viaje</h3>
+            <p data-i18n="how.s2.text">Elige el motivo y hasta tres prioridades: privacidad, silencio, vista, espacio y más.</p>
+          </li>
+          <li class="step">
+            <h3 data-i18n="how.s3.title">Reserva con confianza</h3>
+            <p data-i18n="how.s3.text">Recibes un ranking con porcentaje de compatibilidad, desglose por criterio y una explicación en palabras simples.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="ia" class="section" aria-labelledby="ai-title">
+      <div class="container two-col">
+        <div>
+          <h2 id="ai-title" data-i18n="ai.title">Un porcentaje que puedes entender</h2>
+          <p class="lead" data-i18n="ai.lead">No es una caja negra: cada criterio tiene un peso según tu propósito de viaje y tus prioridades, y las habitaciones fuera de tu presupuesto se excluyen.</p>
+          <ul class="checklist">
+            <li data-i18n="ai.b1">Puntaje determinista y auditable, con desglose por criterio.</li>
+            <li data-i18n="ai.b2">Explicación en lenguaje natural de por qué una habitación te conviene.</li>
+            <li><span><span data-i18n="ai.b3">Descripción libre de tu viaje, interpretada por inteligencia artificial.</span> <span class="chip" data-i18n="ai.soon">En desarrollo</span></span></li>
+          </ul>
+        </div>
+        <div class="rank" role="group" aria-labelledby="rank-label">
+          <p id="rank-label" class="rank__label" data-i18n="ai.example.label">Ejemplo ilustrativo de ranking</p>
+          <article class="rank-card">
+            <div class="score score--high">
+              <span class="score__value">92%</span>
+              <span class="score__tag"><span data-i18n="ai.example.match">compatibilidad</span> · <span data-i18n="ai.example.high">Alta</span></span>
+            </div>
+            <div>
+              <h3 data-i18n="ai.example.room1">Suite Deluxe · S/ 240 por noche</h3>
+              <p data-i18n="ai.example.why1">Cama King, jacuzzi y la mayor privacidad del hotel para tu viaje en pareja.</p>
+            </div>
+          </article>
+          <article class="rank-card">
+            <div class="score score--mid">
+              <span class="score__value">78%</span>
+              <span class="score__tag"><span data-i18n="ai.example.match">compatibilidad</span> · <span data-i18n="ai.example.mid">Media</span></span>
+            </div>
+            <div>
+              <h3 data-i18n="ai.example.room2">Habitación Superior · S/ 190 por noche</h3>
+              <p data-i18n="ai.example.why2">Cama matrimonial y Smart TV; no incluye jacuzzi.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="hoteles" class="section section--navy" aria-labelledby="hotels-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="hotels-title" data-i18n="hotels.title">Para hoteles boutique e independientes</h2>
+          <p class="lead" data-i18n="hotels.lead">Coloca tus habitaciones diferenciadas ante los huéspedes que las valoran, con un canal propio y menos dependencia de las agencias en línea.</p>
+        </div>
+        <div class="cards cards--3">
+          <div class="card">
+            <div class="icon" aria-hidden="true">▦</div>
+            <h3 data-i18n="hotels.f1.title">Gestión completa</h3>
+            <p data-i18n="hotels.f1.text">Habitaciones, servicios, disponibilidad, tarifas por fecha y reservas en un solo panel.</p>
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">🔒</div>
+            <h3 data-i18n="hotels.f2.title">Sin doble reserva</h3>
+            <p data-i18n="hotels.f2.text">Cada habitación se bloquea a nivel de base de datos: dos personas no pueden reservar lo mismo a la vez.</p>
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">🛡</div>
+            <h3 data-i18n="hotels.f3.title">Roles y seguridad</h3>
+            <p data-i18n="hotels.f3.text">Acceso con token firmado (JWT) y permisos distintos para huéspedes y administradores.</p>
+          </div>
+        </div>
+        <p style="margin-top:32px"><a class="btn btn--primary" data-href="registerHotel" href="#" data-i18n="hotels.cta">Quiero registrar mi hotel</a></p>
+      </div>
+    </section>
+
+    <section id="sostenibilidad" class="section section--white" aria-labelledby="sustain-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 id="sustain-title" data-i18n="sustain.title">Un viaje más responsable</h2>
+          <p class="lead" data-i18n="sustain.lead">Reservar en digital y mostrar las prácticas del hotel ayuda a que elijas con información, no por inercia.</p>
+        </div>
+        <div class="cards cards--3">
+          <div class="card">
+            <div class="icon" aria-hidden="true">🌿</div>
+            <h3 data-i18n="sustain.c1.title">Reserva sin papel</h3>
+            <p data-i18n="sustain.c1.text">Todo el proceso de reserva se gestiona en digital, sin formularios impresos.</p>
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">⚡</div>
+            <h3 data-i18n="sustain.c2.title">Menos búsquedas innecesarias</h3>
+            <p data-i18n="sustain.c2.text">Un ranking directo reduce el tiempo y el consumo de datos de comparar decenas de fichas.</p>
+          </div>
+          <div class="card">
+            <div class="icon" aria-hidden="true">🏷</div>
+            <h3 data-i18n="sustain.c3.title">Sello ambiental del hotel</h3>
+            <p data-i18n="sustain.c3.text">Los hoteles pueden publicar sus prácticas sostenibles para que las veas antes de reservar.</p>
+          </div>
+        </div>
+        <p class="ods" data-i18n="sustain.ods">ODS 12 · Producción y consumo responsables, y ODS 8, meta 8.9 · Turismo sostenible.</p>
+      </div>
+    </section>
+
+    <section id="empezar" class="section section--navy cta" aria-labelledby="cta-title">
+      <div class="container">
+        <h2 id="cta-title" data-i18n="cta.title">Empieza a comparar con criterio</h2>
+        <p class="lead" data-i18n="cta.text">Crea tu cuenta gratis y recibe tu primer ranking en minutos.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" data-href="register" href="#" data-i18n="cta.primary">Crear cuenta gratis</a>
+          <a class="btn btn--secondary" data-href="api" href="#" data-i18n="cta.secondary">Ver la documentación del API</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <strong style="color:#fff;font-family:var(--font-display);font-size:1.125rem">HotelMatch</strong>
+          <p data-i18n="footer.tagline">Recomendación explicada de habitaciones.</p>
+        </div>
+        <nav aria-label="Footer">
+          <ul class="footer-links">
+            <li><a href="terminos.html" data-i18n="footer.terms">Términos y condiciones</a></li>
+            <li><a data-href="repo" href="#" data-i18n="footer.repo">Código en GitHub</a></li>
+            <li><a data-href="api" href="#" data-i18n="footer.api">Documentación del API</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p class="footer-bottom">© <span id="year">2026</span> HotelMatch · <span data-i18n="footer.course">Proyecto del curso 1ASI0705 Arquitectura de Aplicaciones Web · UPC · 2026-2</span></p>
+    </div>
+  </footer>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
