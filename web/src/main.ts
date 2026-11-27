@@ -53,6 +53,13 @@ class App {
     if(this.register)await firstValueFrom(this.http.post(API+'/auth/register',body));
     const r:any=await firstValueFrom(this.http.post(API+'/auth/login',{email:this.email,password:this.password}));this.register=false;sessionStorage.setItem('hm-token',r.accessToken);this.user.set(r.user);this.showAuth=false;this.password='';await this.catalog();});}
   logout(){sessionStorage.removeItem('hm-token');this.user.set(null);this.results.set([]);this.bookings.set([]);this.detail.set(null);this.report.set(null);this.adminRows.set(null);}
+  suggestion=signal('');
+  interpret(){const text=this.travel.freeText.trim();if(!text){this.suggestion.set(t('Escribe algo sobre tu viaje primero.','Write something about your trip first.'));return;}
+    this.run(async()=>{this.suggestion.set(t('Analizando tu texto…','Reading your text…'));const r:any=await firstValueFrom(this.http.post(API+'/recommendations/interpret',{text}));
+    if(r.mode==='NONE'){this.suggestion.set(t('No encontré preferencias claras; elígelas en el siguiente paso.','No clear preferences found; pick them in the next step.'));return;}
+    if(r.priorities.length)this.travel.priorities=r.priorities;if(r.purpose)this.travel.purpose=r.purpose;
+    const source=r.mode==='AI'?t('Sugerencia generada con IA','AI-generated suggestion'):t('Sugerencia por palabras clave','Keyword-based suggestion');
+    this.suggestion.set(source+': '+[r.purpose,...r.priorities].filter(Boolean).map((k:string)=>label(k)).join(', ')+'. '+t('Puedes cambiarla.','You can change it.'));});}
   search(){this.run(async()=>{if(this.travel.priorities.length<1||this.travel.priorities.length>3)throw Error(this.t('Elige entre 1 y 3 prioridades.','Choose 1 to 3 priorities.'));
     const r:any=await firstValueFrom(this.http.post(API+'/recommendations',{...this.travel,amenityIds:this.selectedAmenities}));this.results.set(r.results);this.step.set(4);this.detail.set(null);if(!r.results.length)this.message.set(this.t('Sin opciones: cambia fechas o presupuesto.','No matches: change dates or budget.'));});}
   show(id:number){this.run(async()=>{const room=await this.get('/rooms/'+id);this.detail.set({...room,hotel:await this.get('/hotels/'+room.hotelId),match:this.results().find(r=>r.roomId===id)});this.weather.set(null);try{this.weather.set(await this.get('/hotels/'+room.hotelId+'/weather'));}catch{this.weather.set({available:false});}});}
