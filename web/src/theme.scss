@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+
+// Tema Material 3 de HotelMatch. El primario es el terracota de la marca, oscurecido para que
+// el texto blanco sobre los botones cumpla el contraste AA.
+html {
+  color-scheme: light;
+
+  @include mat.theme((
+    color: (theme-type: light, primary: mat.$orange-palette),
+    typography: (plain-family: 'Inter, Arial, sans-serif', brand-family: "'Plus Jakarta Sans', Arial, sans-serif"),
+    density: -1,
+  ));
+
+  @include mat.theme-overrides((
+    primary: #a94f2a,
+    on-primary: #ffffff,
+    primary-container: #f8e3da,
+    on-primary-container: #5a2410,
+    secondary-container: #12263a,
+    on-secondary-container: #ffffff,
+    surface: #ffffff,
+    on-surface: #12263a,
+    on-surface-variant: #52606d,
+    surface-container-lowest: #ffffff,
+    surface-container-low: #ffffff,
+    surface-container: #ffffff,
+    surface-container-high: #ffffff,
+    surface-container-highest: #f1eee8,
+    outline: #8a847a,
+    outline-variant: #e5e1da,
+  ));
+}
