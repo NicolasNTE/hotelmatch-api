@@ -33,7 +33,7 @@ server:
 hotelmatch:
   chat:
     ollama-url: ${OLLAMA_URL:}
-    model: ${OLLAMA_MODEL:llama3.2:3b}
+    model: ${OLLAMA_MODEL:qwen2.5:7b}
   seed-demo-data: ${SEED_DEMO_DATA:false}
   cancellation-window-hours: 48
   security:

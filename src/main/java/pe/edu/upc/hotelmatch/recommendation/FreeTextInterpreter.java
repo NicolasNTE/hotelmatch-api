@@ -69,7 +69,7 @@ public class FreeTextInterpreter {
     private final HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build();
 
     public FreeTextInterpreter(ObjectMapper mapper, @Value("${hotelmatch.chat.ollama-url:}") String endpoint,
-            @Value("${hotelmatch.chat.model:llama3.2:3b}") String model) {
+            @Value("${hotelmatch.chat.model:qwen2.5:7b}") String model) {
         this.mapper = mapper;
         this.endpoint = endpoint;
         this.model = model;

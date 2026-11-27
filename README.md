@@ -3,9 +3,13 @@
 RESTful API de **HotelMatch**, plataforma web de recomendación de habitaciones por porcentaje de compatibilidad con el
 perfil de viaje del huésped. Curso 1ASI0705 Arquitectura de Aplicaciones Web (UPC, ciclo 2026-2).
 
-Este repositorio corresponde al **backend** (Web Services). El informe TB1 prevé la aplicación web (Angular) en un
-repositorio separado. La **landing page** vive provisionalmente en la carpeta [`docs/`](docs/) para publicarla con
-GitHub Pages; puede moverse a su propio repositorio sin cambios (es HTML, CSS y JavaScript estáticos).
+| Pieza | Carpeta | URL pública |
+|---|---|---|
+| API (Spring Boot, PostgreSQL en Neon) | raíz | <https://hotelmatch-api.vercel.app/swagger-ui.html> |
+| Aplicación web (Angular) | [`web/`](web/) | <https://hotelmatch-upc.vercel.app> |
+| Landing page | [`docs/`](docs/) | <https://nicolasnte.github.io/hotelmatch-api/> |
+
+La primera visita tras un rato sin uso tarda unos segundos: el contenedor de la API arranca bajo demanda.
 
 ## Landing page (`docs/`)
 
@@ -52,7 +56,7 @@ Por consola (en Windows usar `mvnw.cmd` en lugar de `./mvnw`):
 
 Crear `src/main/resources/application-local.yml` (está en `.gitignore`, no se sube a GitHub) con la URL, el usuario y
 la clave de tu PostgreSQL, y ejecutar con el perfil `local`. La base `hotelmatch` debe existir (crearla en pgAdmin).
-Hibernate crea las tablas al arrancar.
+Flyway aplica las migraciones al arrancar (una base que ya tenía las tablas se toma como versión 1).
 
 ### Opción B: con PostgreSQL por variables de entorno
 
@@ -126,3 +130,15 @@ CRUD de habitaciones/servicios/disponibilidad/tarifas y del flujo recomendación
 - **Conventional Commits**: `feat(rooms): ...`, `fix(booking): ...`, `test(auth): ...`, `docs: ...`.
 - Estructura por contexto: `iam`, `hotel`, `inventory`, `booking`, `recommendation`; cada uno con
   controlador, servicio, repositorio, entidades y DTOs.
+
+## Migraciones, IA y despliegue
+
+- **Flyway** (`src/main/resources/db/migration`): `V1` crea el esquema y `V2` impide en la base de datos dos reservas no
+  canceladas que compartan noches. El perfil `h2` no usa migraciones.
+- **Sugerencia desde texto libre** (`POST /api/v1/recommendations/interpret`): propone prioridades y motivo de viaje;
+  el huésped los confirma y el puntaje sigue siendo determinista. Con `OLLAMA_URL` usa un modelo local
+  (`OLLAMA_MODEL`, por defecto `qwen2.5:7b`); sin él, coincidencia por palabras clave. El despliegue público usa
+  palabras clave.
+- **Vercel**: la API se publica con `Dockerfile.vercel` (perfil `cloud`) y la web desde `web/`, que reenvía `/api` a la
+  API. Variables de la API: `JWT_SECRET`, `ALLOWED_ORIGINS`, `DEMO_PASSWORD`, `PORT` y las `PG*` de Neon.
+- **Postman**: [`postman/`](postman/).
