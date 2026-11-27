@@ -1,45 +1,308 @@
-<header><a class="brand" href="/" (click)="showAuth=false"><b class="logo-mark">H</b> HotelMatch</a><button mat-button (click)="language()">{{t('English','Español')}}</button>@if(!user()){<button mat-button (click)="showAuth=true;register=false">{{t('Iniciar sesión','Sign in')}}</button><button mat-flat-button (click)="showAuth=true;register=true">{{t('Crear cuenta','Create account')}}</button>}@else{<button mat-button (click)="logout()">{{t('Salir','Sign out')}}</button>}</header>
-<main><p role="status" aria-live="polite">{{busy()?t('Cargando…','Loading…'):message()}}</p>
+<mat-toolbar class="topbar">
+  <a class="brand" href="/" (click)="showAuth=false"><b class="logo-mark">H</b> HotelMatch</a>
+  <button mat-button (click)="language()">{{t('English','Español')}}</button>
+  @if(!user()){
+    <button mat-button (click)="showAuth=true;register=false">{{t('Iniciar sesión','Sign in')}}</button>
+    <button mat-flat-button (click)="showAuth=true;register=true">{{t('Crear cuenta','Create account')}}</button>
+  } @else {
+    <button mat-button (click)="logout()">{{t('Salir','Sign out')}}</button>
+  }
+</mat-toolbar>
+@if(busy()){<mat-progress-bar mode="indeterminate" class="busy-bar" [attr.aria-label]="t('Cargando','Loading')"/>}
+<main>
+<p class="status" role="status" aria-live="polite">{{busy()?t('Cargando…','Loading…'):message()}}</p>
+
 @if(!user() && !showAuth){
 <section class="landing-hero">
-  <div><p class="landing-pill">✦ {{t('Recomendaciones según tus prioridades','Recommendations based on your priorities')}}</p>
+  <div>
+    <p class="landing-pill">✦ {{t('Recomendaciones según tus prioridades','Recommendations based on your priorities')}}</p>
     <h2>{{t('Deja de comparar habitaciones. Encuentra la que es para ti.','Stop comparing rooms. Find the one for you.')}}</h2>
     <p class="landing-copy">{{t('Cuéntanos cómo es tu viaje y compara cada habitación disponible con un ranking claro de compatibilidad.','Tell us about your trip and compare available rooms with a clear compatibility ranking.')}}</p>
-    <div class="landing-search"><div class="landing-fields"><label>{{t('Ingreso','Check-in')}}<input type="date" [(ngModel)]="travel.checkIn"></label><label>{{t('Salida','Check-out')}}<input type="date" [(ngModel)]="travel.checkOut"></label><label>{{t('Huéspedes','Guests')}}<input type="number" min="1" [(ngModel)]="travel.guests"></label></div><button mat-flat-button (click)="showAuth=true;register=false">{{t('Buscar mi habitación ideal →','Find my ideal room →')}}</button></div>
-  </div><div class="landing-visual"><div class="landing-match"><small>#1 {{t('para tu viaje','for your trip')}}</small><strong>Suite Deluxe <span>92%</span></strong><small>{{t('Ejemplo de resultado','Sample result')}}</small><div class="landing-tags"><span>{{t('Cama king','King bed')}}</span><span>Jacuzzi</span><span>{{t('Privacidad','Privacy')}}</span></div></div></div>
+    <mat-card appearance="outlined" class="landing-search">
+      <div class="landing-fields">
+        <mat-form-field floatLabel="always"><mat-label>{{t('Ingreso','Check-in')}}</mat-label><input matInput type="date" [(ngModel)]="travel.checkIn"></mat-form-field>
+        <mat-form-field floatLabel="always"><mat-label>{{t('Salida','Check-out')}}</mat-label><input matInput type="date" [(ngModel)]="travel.checkOut"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Huéspedes','Guests')}}</mat-label><input matInput type="number" min="1" [(ngModel)]="travel.guests"></mat-form-field>
+      </div>
+      <button mat-flat-button class="wide" (click)="showAuth=true;register=false">{{t('Buscar mi habitación ideal →','Find my ideal room →')}}</button>
+    </mat-card>
+  </div>
+  <div class="landing-visual">
+    <div class="landing-match"><small>#1 {{t('para tu viaje','for your trip')}}</small><strong>Suite Deluxe <span>92%</span></strong><small>{{t('Ejemplo de resultado','Sample result')}}</small><div class="landing-tags"><span>{{t('Cama king','King bed')}}</span><span>Jacuzzi</span><span>{{t('Privacidad','Privacy')}}</span></div></div>
+  </div>
 </section>
-<section class="landing-section"><p class="eyebrow">{{t('CÓMO FUNCIONA','HOW IT WORKS')}}</p><h2>{{t('Tres pasos y tu habitación ideal aparece primero','Three steps to your ideal room')}}</h2><p class="muted">{{t('El ranking explica por qué cada habitación encaja contigo.','The ranking explains why each room fits you.')}}</p><div class="landing-steps"><article><b>01</b><h3>{{t('Busca','Search')}}</h3><p>{{t('Ingresa fechas, huéspedes y presupuesto.','Enter dates, guests and budget.')}}</p></article><article><b>02</b><h3>{{t('Cuéntanos tu viaje','Tell us about your trip')}}</h3><p>{{t('Elige el motivo, tus prioridades y servicios deseados.','Choose your purpose, priorities and desired amenities.')}}</p></article><article><b>03</b><h3>{{t('Recibe tu ranking','Get your ranking')}}</h3><p>{{t('Compara porcentajes, criterios y precios.','Compare scores, criteria and prices.')}}</p></article></div></section>
-<section class="landing-gallery" [attr.aria-label]="t('Habitaciones de ejemplo','Sample rooms')"><img src="/assets/rooms/401.jpg" [alt]="t('Suite con jacuzzi','Suite with jacuzzi')" loading="lazy"><img src="/assets/rooms/302.jpg" [alt]="t('Habitación con bañera','Room with bathtub')" loading="lazy"><img src="/assets/rooms/402.jpg" [alt]="t('Suite ejecutiva','Executive suite')" loading="lazy"><img src="/assets/rooms/202.jpg" [alt]="t('Habitación familiar','Family room')" loading="lazy"></section>
-<section class="landing-feature"><div><p class="eyebrow">HOTELMATCH</p><h2>{{t('Un match que entiende tu viaje.','A match that understands your trip.')}}</h2><p>{{t('Compara privacidad, comodidad, precio y los servicios que buscas. Cada resultado muestra su puntuación y los criterios utilizados.','Compare privacy, comfort, price and the amenities you want. Each result shows its score and criteria.')}}</p></div><div class="landing-ranking"><div><img src="/assets/rooms/301.jpg" alt="">1° &nbsp; Suite Deluxe <strong>92%</strong></div><div><img src="/assets/rooms/201.jpg" alt="">2° &nbsp; {{t('Habitación Superior','Superior room')}} <strong>78%</strong></div><div><img src="/assets/rooms/101.jpg" alt="">3° &nbsp; {{t('Estándar Plus','Standard Plus')}} <strong>61%</strong></div></div></section>
-<section class="landing-section landing-cta"><h2>{{t('Tu próxima estadía empieza con un match','Your next stay starts with a match')}}</h2><p class="muted">{{t('Crea tu cuenta para buscar y reservar.','Create an account to search and book.')}}</p><button mat-flat-button (click)="showAuth=true;register=true">{{t('Crear cuenta gratis','Create a free account')}}</button><button mat-button (click)="showAuth=true;register=false">{{t('Iniciar sesión','Sign in')}}</button></section>
-}
-@if(!user() && showAuth){
-<section class="card"><h2>{{register?t('Crea tu cuenta','Create an account'):t('Bienvenido','Welcome back')}}</h2><form (ngSubmit)="login()">
-@if(register){<label>{{t('Nombre','Name')}}<input name="name" [(ngModel)]="name" required maxlength="120" autocomplete="name"></label>}
-<label>{{t('Correo','Email')}}<input name="email" [(ngModel)]="email" required type="email" autocomplete="email"></label>
-<label>{{t('Contraseña','Password')}}<input name="password" [(ngModel)]="password" required minlength="8" type="password" [attr.autocomplete]="register?'new-password':'current-password'"></label>
-@if(register){<label>{{t('Tipo de cuenta','Account type')}}<select name="role" [(ngModel)]="role"><option value="GUEST">{{t('Huésped','Guest')}}</option><option value="ADMIN">{{t('Administrador de hotel','Hotel administrator')}}</option></select></label>@if(role==='ADMIN'){<fieldset><legend>{{t('Tu hotel','Your hotel')}}</legend><label>{{t('Razón social','Legal name')}}<input name="legal" [(ngModel)]="hotel.legalName" required maxlength="150"></label><label>{{t('Nombre comercial','Hotel name')}}<input name="trade" [(ngModel)]="hotel.tradeName" required maxlength="150"></label><label>{{t('Dirección','Address')}}<input name="address" [(ngModel)]="hotel.address" required maxlength="250"></label><label>{{t('Ciudad','City')}}<input name="hotelcity" [(ngModel)]="hotel.city" required maxlength="100"></label></fieldset>}}<button mat-flat-button [disabled]="busy()">{{t('Continuar','Continue')}}</button></form><button mat-button (click)="register=!register">{{register?t('Ya tengo cuenta','I have an account'):t('Registrarme','Register')}}</button></section>
-} @else {
-<nav class="tabs" [attr.aria-label]="t('Secciones','Sections')"><button mat-button (click)="page.set('search')">{{t('Buscar','Search')}}</button><button mat-button (click)="loadBookings()">{{t('Mis reservas','My bookings')}}</button><button mat-button (click)="openProfile()">{{t('Mi perfil','My profile')}}</button>@if(user()?.role==='ADMIN'){<button mat-button (click)="page.set('admin')">{{t('Administración','Administration')}}</button><button mat-button (click)="page.set('report')">{{t('Reportes','Reports')}}</button>}</nav>
-@if(page()==='search'){
-<section class="wizard"><div class="step-progress" role="img" [attr.aria-label]="t('Progreso: paso ','Progress: step ')+step()+t(' de 4',' of 4')">@for(n of [1,2,3,4];track n){<span [class.done]="step()>n" [class.current]="step()===n"></span>}</div><p class="eyebrow">{{t('Paso','Step')}} {{step()}} {{t('de 4','of 4')}}</p>
-@if(step()<4){<form (ngSubmit)="step()===3?search():next()">
-@if(step()===1){<h2>{{t('Primero, lo esencial.','First, the essentials.')}}</h2><p class="muted">{{t('Cuéntanos cuándo viajas y cuánto quieres invertir.','Tell us when you travel and your budget.')}}</p><div class="grid"><label>{{t('Llegada','Check-in')}}<input name="in" type="date" [(ngModel)]="travel.checkIn" required></label><label>{{t('Salida','Check-out')}}<input name="out" type="date" [(ngModel)]="travel.checkOut" required></label><label>{{t('Huéspedes','Guests')}}<input name="guests" type="number" min="1" [(ngModel)]="travel.guests" required></label><label>{{t('Presupuesto por noche (S/)','Nightly budget (PEN)')}}<input name="budget" type="number" min="1" [(ngModel)]="travel.maxBudgetPerNight" required></label><label>{{t('Ciudad (opcional)','City (optional)')}}<input name="city" [(ngModel)]="travel.city" maxlength="100"></label></div>}
-@if(step()===2){<h2>{{t('¿Qué te trae por aquí?','What brings you here?')}}</h2><p class="muted">{{t('Elige el motivo de tu estancia.','Choose the purpose of your stay.')}}</p><div class="chips purpose-chips">@for(p of purposes;track p){<button type="button" [class.selected]="travel.purpose===p" [attr.aria-pressed]="travel.purpose===p" (click)="travel.purpose=p">{{label(p)}}</button>}</div><label>{{t('Algo más sobre tu viaje (opcional)','Anything else about your trip (optional)')}}<textarea name="text" maxlength="500" [(ngModel)]="travel.freeText" [placeholder]="t('Ej. viajo para descansar y busco tranquilidad.','E.g. I am travelling to rest and want a quiet stay.')"></textarea></label><button type="button" mat-button [disabled]="busy()" (click)="interpret()">✦ {{t('Sugerir prioridades a partir de mi texto','Suggest priorities from my text')}}</button><p role="status" aria-live="polite">{{suggestion()}}</p><p class="muted">{{t('El ranking utiliza las prioridades y servicios que selecciones en el siguiente paso.','The ranking uses the priorities and amenities you select in the next step.')}}</p>}
-@if(step()===3){<h2>{{t('¿Qué es lo que más valoras?','What matters most to you?')}}</h2><p class="muted">{{t('Elige entre 1 y 3 prioridades.','Choose 1 to 3 priorities.')}}</p><div class="chips">@for(p of priorities;track p){<button type="button" [class.selected]="travel.priorities.includes(p)" [attr.aria-pressed]="travel.priorities.includes(p)" [disabled]="travel.priorities.length===3&&!travel.priorities.includes(p)" (click)="togglePriority(p)">{{travel.priorities.includes(p)?'✓ ':''}}{{label(p)}}</button>}</div><h3>{{t('Servicios deseados','Desired amenities')}}</h3><div class="chips">@for(a of amenities();track a.id){<button type="button" [class.selected]="selectedAmenities.includes(a.id)" [attr.aria-pressed]="selectedAmenities.includes(a.id)" (click)="toggleAmenity(a.id)">{{selectedAmenities.includes(a.id)?'✓ ':''}}{{a.name}}</button>}@empty{<p>{{t('No hay servicios registrados.','No amenities registered.')}}</p>}</div>}
-<div class="wizard-actions">@if(step()>1){<button mat-button type="button" (click)="step.update(previousStep)">← {{t('Atrás','Back')}}</button>}<button mat-flat-button [disabled]="busy()||step()===3&&travel.priorities.length===0">{{step()===3?t('Ver mi ranking →','See my ranking →'):t('Continuar →','Continue →')}}</button></div></form>}
-@if(step()===4){<div class="section-title"><div><h2>{{t('Tu estancia empieza con un buen match.','Your stay starts with a good match.')}}</h2><p class="muted">{{travel.checkIn}} → {{travel.checkOut}} · {{travel.guests}} {{t('huéspedes','guests')}} · S/ {{travel.maxBudgetPerNight}} / {{t('noche','night')}}</p></div><button mat-button (click)="step.set(1);results.set([]);detail.set(null)">{{t('Modificar búsqueda','Edit search')}}</button></div>}
+<section class="landing-section">
+  <p class="eyebrow">{{t('CÓMO FUNCIONA','HOW IT WORKS')}}</p>
+  <h2>{{t('Tres pasos y tu habitación ideal aparece primero','Three steps to your ideal room')}}</h2>
+  <p class="muted">{{t('El ranking explica por qué cada habitación encaja contigo.','The ranking explains why each room fits you.')}}</p>
+  <div class="landing-steps">
+    <mat-card appearance="filled"><mat-card-content><b>01</b><h3>{{t('Busca','Search')}}</h3><p>{{t('Ingresa fechas, huéspedes y presupuesto.','Enter dates, guests and budget.')}}</p></mat-card-content></mat-card>
+    <mat-card appearance="filled"><mat-card-content><b>02</b><h3>{{t('Cuéntanos tu viaje','Tell us about your trip')}}</h3><p>{{t('Elige el motivo, tus prioridades y servicios deseados.','Choose your purpose, priorities and desired amenities.')}}</p></mat-card-content></mat-card>
+    <mat-card appearance="filled"><mat-card-content><b>03</b><h3>{{t('Recibe tu ranking','Get your ranking')}}</h3><p>{{t('Compara porcentajes, criterios y precios.','Compare scores, criteria and prices.')}}</p></mat-card-content></mat-card>
+  </div>
 </section>
-<div class="results">@for(r of results();track r.roomId){<article class="card result-card">@if(r.imageUrl){<img class="room-photo" [src]="r.imageUrl" [alt]="r.roomName" loading="lazy">}@else{<div class="room-placeholder" aria-hidden="true">HotelMatch</div>}<p class="score">{{r.compatibility}}% <small>{{t('compatibilidad','compatibility')}}</small></p><h2>{{r.roomName}}</h2><p>{{r.hotelName}} · {{r.city}}</p><p>{{r.explanation}}</p><p>S/ {{r.pricePerNight}} / {{t('noche','night')}} · Total S/ {{r.totalPrice}}</p><details><summary>{{t('Ver criterios','View criteria')}}</summary>@for(c of r.breakdown;track c.criterion){<p>{{c.label}}: {{c.score}}% · {{c.weight}}</p>}</details><button mat-button (click)="show(r.roomId)">{{t('Detalle','Details')}}</button><button mat-flat-button [disabled]="busy()" (click)="reserve(r.roomId)">{{t('Reservar','Book')}}</button></article>}</div>
-@if(detail()){<section class="card"><h2>{{detail().name}}</h2><p>{{detail().hotel.tradeName}} · {{detail().hotel.address}}, {{detail().hotel.city}}</p>@if(detail().imageUrl){<img class="detail-photo" [src]="detail().imageUrl" [alt]="detail().name">}<p>{{detail().description}}</p>@if(detail().match){<p class="score">{{detail().match.compatibility}}%</p><p>{{detail().match.explanation}}</p>}@if(detail().hotel.sustainabilitySeal){<span class="badge">{{t('Hotel con sello de sostenibilidad','Sustainability seal')}}</span>}<p>{{detail().capacity}} {{t('huéspedes','guests')}} · {{label(detail().bedType)}}</p>@for(a of detail().amenities;track a.amenityId){<p>{{a.name}} {{a.detail}}</p>}@if(detail().hotel.latitude!==null&&detail().hotel.longitude!==null){<a target="_blank" rel="noopener" [href]="'https://www.openstreetmap.org/?mlat='+detail().hotel.latitude+'&mlon='+detail().hotel.longitude+'#map=16/'+detail().hotel.latitude+'/'+detail().hotel.longitude">{{t('Ver ubicación en el mapa','View location on map')}}</a>}@if(weather()){<section><h3>{{t('Clima del destino','Destination weather')}}</h3>@if(weather().available){<p>{{weather().current.temperature_2m}} °C · {{weather().current.time}}</p><p class="muted">{{t('Pronóstico de los próximos 7 días; puede no coincidir con tu estadía.','Forecast for the next 7 days; it may differ from your stay dates.')}}</p>}@else{<p>{{t('Clima no disponible por el momento.','Weather is temporarily unavailable.')}}</p>}<small><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a></small></section>}<button mat-button (click)="detail.set(null)">{{t('Cerrar','Close')}}</button></section>}
+<section class="landing-gallery" [attr.aria-label]="t('Habitaciones de ejemplo','Sample rooms')">
+  <img src="/assets/rooms/401.jpg" [alt]="t('Suite con jacuzzi','Suite with jacuzzi')" loading="lazy">
+  <img src="/assets/rooms/302.jpg" [alt]="t('Habitación con bañera','Room with bathtub')" loading="lazy">
+  <img src="/assets/rooms/402.jpg" [alt]="t('Suite ejecutiva','Executive suite')" loading="lazy">
+  <img src="/assets/rooms/202.jpg" [alt]="t('Habitación familiar','Family room')" loading="lazy">
+</section>
+<section class="landing-feature">
+  <div><p class="eyebrow">HOTELMATCH</p><h2>{{t('Un match que entiende tu viaje.','A match that understands your trip.')}}</h2><p>{{t('Compara privacidad, comodidad, precio y los servicios que buscas. Cada resultado muestra su puntuación y los criterios utilizados.','Compare privacy, comfort, price and the amenities you want. Each result shows its score and criteria.')}}</p></div>
+  <div class="landing-ranking">
+    <div><img src="/assets/rooms/301.jpg" alt="">1° &nbsp; Suite Deluxe <strong>92%</strong></div>
+    <div><img src="/assets/rooms/201.jpg" alt="">2° &nbsp; {{t('Habitación Superior','Superior room')}} <strong>78%</strong></div>
+    <div><img src="/assets/rooms/101.jpg" alt="">3° &nbsp; {{t('Estándar Plus','Standard Plus')}} <strong>61%</strong></div>
+  </div>
+</section>
+<section class="landing-section landing-cta">
+  <h2>{{t('Tu próxima estadía empieza con un match','Your next stay starts with a match')}}</h2>
+  <p class="muted">{{t('Crea tu cuenta para buscar y reservar.','Create an account to search and book.')}}</p>
+  <button mat-flat-button (click)="showAuth=true;register=true">{{t('Crear cuenta gratis','Create a free account')}}</button>
+  <button mat-button (click)="showAuth=true;register=false">{{t('Iniciar sesión','Sign in')}}</button>
+</section>
 }
-@if(page()==='bookings'){<form class="toolbar" (ngSubmit)="loadBookings()"><label>{{t('Estado','Status')}}<select name="status" [(ngModel)]="bookingStatus"><option value="">{{t('Todos','All')}}</option>@for(st of ['CONFIRMED','PENDING_PAYMENT','CANCELLED'];track st){<option [value]="st">{{label(st)}}</option>}</select></label><label>{{t('Desde','From')}}<input name="from" type="date" [(ngModel)]="bookingFrom"></label><label>{{t('Hasta','To')}}<input name="to" type="date" [(ngModel)]="bookingTo"></label><button mat-button>{{t('Filtrar','Filter')}}</button></form><h2>{{t('Reservas','Bookings')}}</h2>@for(b of bookings();track b.id){<article class="card"><h3>{{b.code}} · {{b.roomName}}</h3><p>{{b.checkIn}} → {{b.checkOut}} · {{label(b.status)}} · S/ {{b.totalAmount}}</p>@if(user()?.role==='ADMIN'&&b.status!=='CANCELLED'){<button mat-button (click)="changeStatus(b.id,b.status==='CONFIRMED'?'PENDING_PAYMENT':'CONFIRMED')" [disabled]="busy()">{{b.status==='CONFIRMED'?t('Marcar pendiente de pago','Mark pending payment'):t('Confirmar','Confirm')}}</button>}@if(b.cancellable&&user()?.role==='GUEST'){<button mat-button [disabled]="busy()" (click)="cancel(b.id)">{{t('Cancelar','Cancel')}}</button>}</article>}@empty{<p>{{t('Aún no hay reservas.','No bookings yet.')}}</p>}}
-@if(page()==='bookings'){<div class="pager"><button mat-button [disabled]="bookingPage()===0||busy()" (click)="turnBookings(-1)">{{t('Anterior','Previous')}}</button><span>{{bookingPage()+1}} / {{bookingPages()||1}}</span><button mat-button [disabled]="bookingPage()+1>=bookingPages()||busy()" (click)="turnBookings(1)">{{t('Siguiente','Next')}}</button></div>}@if(page()==='report'){
-<div class="grid"><label>{{t('Desde','From')}}<input type="date" [(ngModel)]="from"></label><label>{{t('Hasta (exclusivo)','To (exclusive)')}}<input type="date" [(ngModel)]="to"></label></div>
-}
-@if(page()==='report'){<h2>{{t('Resumen del hotel','Hotel summary')}}</h2><button mat-flat-button (click)="loadReport()" [disabled]="busy()">{{t('Consultar','View')}}</button><button mat-button (click)="download()" [disabled]="busy()">PDF</button>@if(report()){<div class="kpis"><article class="card"><small>{{t('Reservas','Bookings')}}</small><strong>{{report().bookings}}</strong></article><article class="card"><small>{{t('Canceladas','Cancelled')}}</small><strong>{{report().cancelled}}</strong></article><article class="card"><small>{{t('Ocupación estimada','Estimated occupancy')}}</small><strong>{{report().occupancyPercent}}%</strong></article><article class="card"><small>{{t('Valor confirmado del período','Confirmed value for period')}}</small><strong>S/ {{report().confirmedBookingValue|number:'1.2-2'}}</strong></article></div><label>{{t('Noches ocupadas / capacidad actual','Occupied nights / current capacity')}}<progress max="100" [value]="report().occupancyPercent"></progress></label><p>{{report().occupiedNights}} / {{report().capacityNights}}</p><p>{{t('El valor confirmado es proporcional a las noches del período; no representa cobros. La ocupación usa el inventario activo actual.','Confirmed value is allocated by stay nights; it is not collected revenue. Occupancy uses current active inventory.')}}</p>}}
-@if(page()==='admin'){<hm-admin/>}
-@if(page()==='profile'){<section class="card"><h2>{{t('Mi perfil','My profile')}}</h2><form (ngSubmit)="saveProfile()"><div class="grid"><label>{{t('Nombre','Name')}}<input name="name" [(ngModel)]="profile.name" required maxlength="120"></label><label>{{t('Correo','Email')}}<input name="email" type="email" [(ngModel)]="profile.email" required maxlength="180"></label><label>{{t('Contraseña actual (si deseas cambiarla)','Current password (to change it)')}}<input name="current" type="password" [(ngModel)]="profile.currentPassword" autocomplete="current-password"></label><label>{{t('Nueva contraseña','New password')}}<input name="new" type="password" [(ngModel)]="profile.newPassword" minlength="8" maxlength="72" autocomplete="new-password"></label></div><button mat-flat-button [disabled]="busy()">{{t('Guardar perfil','Save profile')}}</button></form><button mat-button (click)="deactivateAccount()">{{t('Dar de baja mi cuenta','Deactivate my account')}}</button></section>@if(user()?.role==='ADMIN'){<section class="card"><h2>{{t('Mi hotel','My hotel')}}</h2><form (ngSubmit)="saveHotel()"><div class="grid"><label>{{t('Razón social','Legal name')}}<input name="legal" [(ngModel)]="hotel.legalName" required maxlength="150"></label><label>{{t('Nombre comercial','Hotel name')}}<input name="trade" [(ngModel)]="hotel.tradeName" required maxlength="150"></label><label>{{t('Dirección','Address')}}<input name="address" [(ngModel)]="hotel.address" required maxlength="250"></label><label>{{t('Ciudad','City')}}<input name="city" [(ngModel)]="hotel.city" required maxlength="100"></label><label>{{t('Distrito','District')}}<input name="district" [(ngModel)]="hotel.district" maxlength="100"></label><label>{{t('Latitud','Latitude')}}<input name="lat" type="number" min="-90" max="90" step="any" [(ngModel)]="hotel.latitude"></label><label>{{t('Longitud','Longitude')}}<input name="lon" type="number" min="-180" max="180" step="any" [(ngModel)]="hotel.longitude"></label></div><label><input name="seal" type="checkbox" [(ngModel)]="hotel.sustainabilitySeal">{{t('Sello de sostenibilidad','Sustainability seal')}}</label><label>{{t('Descripción de sostenibilidad','Sustainability description')}}<textarea name="sustainability" [(ngModel)]="hotel.sustainabilityDescription" maxlength="1000"></textarea></label><button mat-flat-button [disabled]="busy()">{{t('Guardar hotel','Save hotel')}}</button></form><button mat-button (click)="deactivateHotel()">{{t('Dar de baja el hotel','Deactivate hotel')}}</button></section>}}
 
+@if(!user() && showAuth){
+<mat-card appearance="outlined" class="panel narrow">
+  <mat-card-content>
+    <h2>{{register?t('Crea tu cuenta','Create an account'):t('Bienvenido','Welcome back')}}</h2>
+    <form (ngSubmit)="login()" class="stack">
+      @if(register){<mat-form-field><mat-label>{{t('Nombre','Name')}}</mat-label><input matInput name="name" [(ngModel)]="name" required maxlength="120" autocomplete="name"></mat-form-field>}
+      <mat-form-field><mat-label>{{t('Correo','Email')}}</mat-label><input matInput name="email" [(ngModel)]="email" required type="email" autocomplete="email"></mat-form-field>
+      <mat-form-field><mat-label>{{t('Contraseña','Password')}}</mat-label><input matInput name="password" [(ngModel)]="password" required minlength="8" type="password" [attr.autocomplete]="register?'new-password':'current-password'"></mat-form-field>
+      @if(register){
+        <mat-form-field><mat-label>{{t('Tipo de cuenta','Account type')}}</mat-label><mat-select name="role" [(ngModel)]="role"><mat-option value="GUEST">{{t('Huésped','Guest')}}</mat-option><mat-option value="ADMIN">{{t('Administrador de hotel','Hotel administrator')}}</mat-option></mat-select></mat-form-field>
+        @if(role==='ADMIN'){
+          <fieldset class="stack"><legend>{{t('Tu hotel','Your hotel')}}</legend>
+            <mat-form-field><mat-label>{{t('Razón social','Legal name')}}</mat-label><input matInput name="legal" [(ngModel)]="hotel.legalName" required maxlength="150"></mat-form-field>
+            <mat-form-field><mat-label>{{t('Nombre comercial','Hotel name')}}</mat-label><input matInput name="trade" [(ngModel)]="hotel.tradeName" required maxlength="150"></mat-form-field>
+            <mat-form-field><mat-label>{{t('Dirección','Address')}}</mat-label><input matInput name="address" [(ngModel)]="hotel.address" required maxlength="250"></mat-form-field>
+            <mat-form-field><mat-label>{{t('Ciudad','City')}}</mat-label><input matInput name="hotelcity" [(ngModel)]="hotel.city" required maxlength="100"></mat-form-field>
+          </fieldset>
+        }
+      }
+      <button mat-flat-button type="submit" [disabled]="busy()">{{t('Continuar','Continue')}}</button>
+    </form>
+    <button mat-button (click)="register=!register">{{register?t('Ya tengo cuenta','I have an account'):t('Registrarme','Register')}}</button>
+  </mat-card-content>
+</mat-card>
 }
-@if(user()){<hm-chat/>}</main><footer>HotelMatch · <a href="/terms.html#{{lang()}}">{{t('Términos y condiciones','Terms and conditions')}}</a></footer>
+
+@if(user()){
+<nav mat-tab-nav-bar [tabPanel]="panel" class="app-nav" [attr.aria-label]="t('Secciones','Sections')" mat-stretch-tabs="false">
+  <button mat-tab-link type="button" [active]="page()==='search'" (click)="page.set('search')">{{t('Buscar','Search')}}</button>
+  <button mat-tab-link type="button" [active]="page()==='bookings'" (click)="loadBookings()">{{t('Mis reservas','My bookings')}}</button>
+  <button mat-tab-link type="button" [active]="page()==='profile'" (click)="openProfile()">{{t('Mi perfil','My profile')}}</button>
+  @if(user()?.role==='ADMIN'){
+    <button mat-tab-link type="button" [active]="page()==='admin'" (click)="page.set('admin')">{{t('Administración','Administration')}}</button>
+    <button mat-tab-link type="button" [active]="page()==='report'" (click)="page.set('report')">{{t('Reportes','Reports')}}</button>
+  }
+</nav>
+<mat-tab-nav-panel #panel>
+
+@if(page()==='search'){
+<section class="wizard">
+  <mat-progress-bar mode="determinate" [value]="step()*25" [attr.aria-label]="t('Progreso: paso ','Progress: step ')+step()+t(' de 4',' of 4')"/>
+  <p class="eyebrow">{{t('Paso','Step')}} {{step()}} {{t('de 4','of 4')}}</p>
+  @if(step()<4){
+  <form (ngSubmit)="step()===3?search():next()">
+    @if(step()===1){
+      <h2>{{t('Primero, lo esencial.','First, the essentials.')}}</h2>
+      <p class="muted">{{t('Cuéntanos cuándo viajas y cuánto quieres invertir.','Tell us when you travel and your budget.')}}</p>
+      <div class="grid">
+        <mat-form-field floatLabel="always"><mat-label>{{t('Llegada','Check-in')}}</mat-label><input matInput name="in" type="date" [(ngModel)]="travel.checkIn" required></mat-form-field>
+        <mat-form-field floatLabel="always"><mat-label>{{t('Salida','Check-out')}}</mat-label><input matInput name="out" type="date" [(ngModel)]="travel.checkOut" required></mat-form-field>
+        <mat-form-field><mat-label>{{t('Huéspedes','Guests')}}</mat-label><input matInput name="guests" type="number" min="1" [(ngModel)]="travel.guests" required></mat-form-field>
+        <mat-form-field><mat-label>{{t('Presupuesto por noche (S/)','Nightly budget (PEN)')}}</mat-label><input matInput name="budget" type="number" min="1" [(ngModel)]="travel.maxBudgetPerNight" required></mat-form-field>
+        <mat-form-field><mat-label>{{t('Ciudad (opcional)','City (optional)')}}</mat-label><input matInput name="city" [(ngModel)]="travel.city" maxlength="100"></mat-form-field>
+      </div>
+    }
+    @if(step()===2){
+      <h2>{{t('¿Qué te trae por aquí?','What brings you here?')}}</h2>
+      <p class="muted">{{t('Elige el motivo de tu estancia.','Choose the purpose of your stay.')}}</p>
+      <mat-chip-listbox class="chips" [attr.aria-label]="t('Motivo del viaje','Trip purpose')">
+        @for(p of purposes;track p){<mat-chip-option [selected]="travel.purpose===p" (selectionChange)="choosePurpose(p,$event)">{{label(p)}}</mat-chip-option>}
+      </mat-chip-listbox>
+      <mat-form-field class="wide"><mat-label>{{t('Algo más sobre tu viaje (opcional)','Anything else about your trip (optional)')}}</mat-label>
+        <textarea matInput name="text" rows="3" maxlength="500" [(ngModel)]="travel.freeText" [placeholder]="t('Ej. viajo para descansar y busco tranquilidad.','E.g. I am travelling to rest and want a quiet stay.')"></textarea>
+      </mat-form-field>
+      <button mat-stroked-button type="button" [disabled]="busy()" (click)="interpret()">✦ {{t('Sugerir prioridades a partir de mi texto','Suggest priorities from my text')}}</button>
+      <p role="status" aria-live="polite">{{suggestion()}}</p>
+      <p class="muted">{{t('El ranking utiliza las prioridades y servicios que selecciones en el siguiente paso.','The ranking uses the priorities and amenities you select in the next step.')}}</p>
+    }
+    @if(step()===3){
+      <h2>{{t('¿Qué es lo que más valoras?','What matters most to you?')}}</h2>
+      <p class="muted">{{t('Elige entre 1 y 3 prioridades.','Choose 1 to 3 priorities.')}}</p>
+      <mat-chip-listbox class="chips" multiple [attr.aria-label]="t('Prioridades','Priorities')">
+        @for(p of priorities;track p){<mat-chip-option [selected]="travel.priorities.includes(p)" [disabled]="travel.priorities.length===3&&!travel.priorities.includes(p)" (selectionChange)="choosePriority(p,$event)">{{label(p)}}</mat-chip-option>}
+      </mat-chip-listbox>
+      <h3>{{t('Servicios deseados','Desired amenities')}}</h3>
+      <mat-chip-listbox class="chips" multiple [attr.aria-label]="t('Servicios deseados','Desired amenities')">
+        @for(a of amenities();track a.id){<mat-chip-option [selected]="selectedAmenities.includes(a.id)" (selectionChange)="chooseAmenity(a.id,$event)">{{a.name}}</mat-chip-option>}
+      </mat-chip-listbox>
+      @if(!amenities().length){<p>{{t('No hay servicios registrados.','No amenities registered.')}}</p>}
+    }
+    <div class="wizard-actions">
+      @if(step()>1){<button mat-button type="button" (click)="previous()">← {{t('Atrás','Back')}}</button>}
+      <button mat-flat-button type="submit" [disabled]="busy()||step()===3&&travel.priorities.length===0">{{step()===3?t('Ver mi ranking →','See my ranking →'):t('Continuar →','Continue →')}}</button>
+    </div>
+  </form>
+  }
+  @if(step()===4){
+    <div class="section-title">
+      <div><h2>{{t('Tu estancia empieza con un buen match.','Your stay starts with a good match.')}}</h2><p class="muted">{{travel.checkIn}} → {{travel.checkOut}} · {{travel.guests}} {{t('huéspedes','guests')}} · S/ {{travel.maxBudgetPerNight}} / {{t('noche','night')}}</p></div>
+      <button mat-stroked-button (click)="restart()">{{t('Modificar búsqueda','Edit search')}}</button>
+    </div>
+  }
+</section>
+
+<div class="results">
+  @for(r of results();track r.roomId){
+  <mat-card appearance="outlined" class="result-card">
+    @if(r.imageUrl){<img mat-card-image class="room-photo" [src]="r.imageUrl" [alt]="r.roomName" loading="lazy">}
+    @else{<div class="room-placeholder" aria-hidden="true">HotelMatch</div>}
+    <mat-card-content>
+      <p class="score">{{r.compatibility}}% <small>{{t('compatibilidad','compatibility')}}</small></p>
+      <h2>{{r.roomName}}</h2>
+      <p class="muted">{{r.hotelName}} · {{r.city}}</p>
+      <p>{{r.explanation}}</p>
+      <p><strong>S/ {{r.pricePerNight}}</strong> / {{t('noche','night')}} · Total S/ {{r.totalPrice}}</p>
+      <mat-expansion-panel class="criteria">
+        <mat-expansion-panel-header><mat-panel-title>{{t('Ver criterios','View criteria')}}</mat-panel-title></mat-expansion-panel-header>
+        @for(c of r.breakdown;track c.criterion){<p class="criterion">{{c.label}} <span>{{c.score}}% · {{t('peso','weight')}} {{c.weight}}</span></p><mat-progress-bar mode="determinate" [value]="c.score" [attr.aria-label]="c.label"/>}
+      </mat-expansion-panel>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button (click)="show(r.roomId)">{{t('Detalle','Details')}}</button>
+      <button mat-flat-button [disabled]="busy()" (click)="reserve(r.roomId)">{{t('Reservar','Book')}}</button>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>
+
+@if(detail()){
+<mat-card appearance="outlined" class="panel" id="room-detail">
+  <mat-card-content>
+    <h2>{{detail().name}}</h2>
+    <p class="muted">{{detail().hotel.tradeName}} · {{detail().hotel.address}}, {{detail().hotel.city}}</p>
+    @if(detail().imageUrl){<img class="detail-photo" [src]="detail().imageUrl" [alt]="detail().name">}
+    <p>{{detail().description}}</p>
+    @if(detail().match){<p class="score">{{detail().match.compatibility}}%</p><p>{{detail().match.explanation}}</p>}
+    @if(detail().hotel.sustainabilitySeal){<span class="badge">{{t('Hotel con sello de sostenibilidad','Sustainability seal')}}</span>}
+    <p>{{detail().capacity}} {{t('huéspedes','guests')}} · {{label(detail().bedType)}}</p>
+    <mat-chip-set [attr.aria-label]="t('Servicios incluidos','Included amenities')">
+      @for(a of detail().amenities;track a.amenityId){<mat-chip>{{a.name}} {{a.detail}}</mat-chip>}
+    </mat-chip-set>
+    @if(detail().hotel.latitude!==null&&detail().hotel.longitude!==null){<p><a target="_blank" rel="noopener" [href]="'https://www.openstreetmap.org/?mlat='+detail().hotel.latitude+'&mlon='+detail().hotel.longitude+'#map=16/'+detail().hotel.latitude+'/'+detail().hotel.longitude">{{t('Ver ubicación en el mapa','View location on map')}}</a></p>}
+    @if(weather()){
+      <section><h3>{{t('Clima del destino','Destination weather')}}</h3>
+        @if(weather().available){<p>{{weather().current.temperature_2m}} °C · {{weather().current.time}}</p><p class="muted">{{t('Pronóstico de los próximos 7 días; puede no coincidir con tu estadía.','Forecast for the next 7 days; it may differ from your stay dates.')}}</p>}
+        @else{<p>{{t('Clima no disponible por el momento.','Weather is temporarily unavailable.')}}</p>}
+        <small><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a></small>
+      </section>
+    }
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="detail.set(null)">{{t('Cerrar','Close')}}</button>
+    <button mat-flat-button [disabled]="busy()||!travel.checkIn" (click)="reserve(detail().id)">{{t('Reservar','Book')}}</button>
+  </mat-card-actions>
+</mat-card>
+}
+}
+
+@if(page()==='bookings'){
+<h2>{{t('Reservas','Bookings')}}</h2>
+<form class="toolbar" (ngSubmit)="loadBookings()">
+  <mat-form-field floatLabel="always"><mat-label>{{t('Estado','Status')}}</mat-label>
+    <mat-select name="status" [(ngModel)]="bookingStatus" [placeholder]="t('Todos','All')">
+      <mat-option value="">{{t('Todos','All')}}</mat-option>
+      @for(st of bookingStatuses;track st){<mat-option [value]="st">{{label(st)}}</mat-option>}
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field floatLabel="always"><mat-label>{{t('Desde','From')}}</mat-label><input matInput name="from" type="date" [(ngModel)]="bookingFrom"></mat-form-field>
+  <mat-form-field floatLabel="always"><mat-label>{{t('Hasta','To')}}</mat-label><input matInput name="to" type="date" [(ngModel)]="bookingTo"></mat-form-field>
+  <button mat-stroked-button type="submit">{{t('Filtrar','Filter')}}</button>
+</form>
+@for(b of bookings();track b.id){
+  <mat-card appearance="outlined" class="panel">
+    <mat-card-content>
+      <h3>{{b.code}} · {{b.roomName}}</h3>
+      <p>{{b.checkIn}} → {{b.checkOut}} · <span class="badge" [class.off]="b.status==='CANCELLED'">{{label(b.status)}}</span> · S/ {{b.totalAmount}}</p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      @if(user()?.role==='ADMIN'&&b.status!=='CANCELLED'){<button mat-button (click)="changeStatus(b.id,b.status==='CONFIRMED'?'PENDING_PAYMENT':'CONFIRMED')" [disabled]="busy()">{{b.status==='CONFIRMED'?t('Marcar pendiente de pago','Mark pending payment'):t('Confirmar','Confirm')}}</button>}
+      @if(b.cancellable&&user()?.role==='GUEST'){<button mat-stroked-button [disabled]="busy()" (click)="cancel(b.id)">{{t('Cancelar reserva','Cancel booking')}}</button>}
+    </mat-card-actions>
+  </mat-card>
+} @empty {<p>{{t('Aún no hay reservas.','No bookings yet.')}}</p>}
+<mat-paginator [length]="bookingTotal()" [pageSize]="10" [pageIndex]="bookingPage()" [hidePageSize]="true" [disabled]="busy()" (page)="turnBookings($event)" [attr.aria-label]="t('Páginas de reservas','Booking pages')"/>
+}
+
+@if(page()==='report'){
+<h2>{{t('Resumen del hotel','Hotel summary')}}</h2>
+<div class="toolbar">
+  <mat-form-field floatLabel="always"><mat-label>{{t('Desde','From')}}</mat-label><input matInput type="date" [(ngModel)]="from"></mat-form-field>
+  <mat-form-field floatLabel="always"><mat-label>{{t('Hasta (exclusivo)','To (exclusive)')}}</mat-label><input matInput type="date" [(ngModel)]="to"></mat-form-field>
+  <button mat-flat-button (click)="loadReport()" [disabled]="busy()">{{t('Consultar','View')}}</button>
+  <button mat-stroked-button (click)="download()" [disabled]="busy()">{{t('Descargar PDF','Download PDF')}}</button>
+</div>
+@if(report()){
+  <div class="kpis">
+    <mat-card appearance="outlined"><mat-card-content><small>{{t('Reservas','Bookings')}}</small><strong>{{report().bookings}}</strong></mat-card-content></mat-card>
+    <mat-card appearance="outlined"><mat-card-content><small>{{t('Canceladas','Cancelled')}}</small><strong>{{report().cancelled}}</strong></mat-card-content></mat-card>
+    <mat-card appearance="outlined"><mat-card-content><small>{{t('Ocupación estimada','Estimated occupancy')}}</small><strong>{{report().occupancyPercent}}%</strong></mat-card-content></mat-card>
+    <mat-card appearance="outlined"><mat-card-content><small>{{t('Valor confirmado del período','Confirmed value for period')}}</small><strong>S/ {{report().confirmedBookingValue|number:'1.2-2'}}</strong></mat-card-content></mat-card>
+  </div>
+  <p>{{t('Noches ocupadas / capacidad actual','Occupied nights / current capacity')}}: {{report().occupiedNights}} / {{report().capacityNights}}</p>
+  <mat-progress-bar mode="determinate" [value]="report().occupancyPercent" [attr.aria-label]="t('Ocupación estimada','Estimated occupancy')"/>
+  <p class="muted">{{t('El valor confirmado es proporcional a las noches del período; no representa cobros. La ocupación usa el inventario activo actual.','Confirmed value is allocated by stay nights; it is not collected revenue. Occupancy uses current active inventory.')}}</p>
+}
+}
+
+@if(page()==='admin'){<hm-admin/>}
+
+@if(page()==='profile'){
+<mat-card appearance="outlined" class="panel">
+  <mat-card-content>
+    <h2>{{t('Mi perfil','My profile')}}</h2>
+    <form (ngSubmit)="saveProfile()">
+      <div class="grid">
+        <mat-form-field><mat-label>{{t('Nombre','Name')}}</mat-label><input matInput name="name" [(ngModel)]="profile.name" required maxlength="120"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Correo','Email')}}</mat-label><input matInput name="email" type="email" [(ngModel)]="profile.email" required maxlength="180"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Contraseña actual','Current password')}}</mat-label><input matInput name="current" type="password" [(ngModel)]="profile.currentPassword" autocomplete="current-password"><mat-hint>{{t('Solo si deseas cambiarla','Only to change it')}}</mat-hint></mat-form-field>
+        <mat-form-field><mat-label>{{t('Nueva contraseña','New password')}}</mat-label><input matInput name="new" type="password" [(ngModel)]="profile.newPassword" minlength="8" maxlength="72" autocomplete="new-password"></mat-form-field>
+      </div>
+      <button mat-flat-button type="submit" [disabled]="busy()">{{t('Guardar perfil','Save profile')}}</button>
+      <button mat-button type="button" (click)="deactivateAccount()">{{t('Dar de baja mi cuenta','Deactivate my account')}}</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+@if(user()?.role==='ADMIN'){
+<mat-card appearance="outlined" class="panel">
+  <mat-card-content>
+    <h2>{{t('Mi hotel','My hotel')}}</h2>
+    <form (ngSubmit)="saveHotel()">
+      <div class="grid">
+        <mat-form-field><mat-label>{{t('Razón social','Legal name')}}</mat-label><input matInput name="legal" [(ngModel)]="hotel.legalName" required maxlength="150"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Nombre comercial','Hotel name')}}</mat-label><input matInput name="trade" [(ngModel)]="hotel.tradeName" required maxlength="150"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Dirección','Address')}}</mat-label><input matInput name="address" [(ngModel)]="hotel.address" required maxlength="250"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Ciudad','City')}}</mat-label><input matInput name="city" [(ngModel)]="hotel.city" required maxlength="100"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Distrito','District')}}</mat-label><input matInput name="district" [(ngModel)]="hotel.district" maxlength="100"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Latitud','Latitude')}}</mat-label><input matInput name="lat" type="number" min="-90" max="90" step="any" [(ngModel)]="hotel.latitude"></mat-form-field>
+        <mat-form-field><mat-label>{{t('Longitud','Longitude')}}</mat-label><input matInput name="lon" type="number" min="-180" max="180" step="any" [(ngModel)]="hotel.longitude"></mat-form-field>
+      </div>
+      <mat-checkbox name="seal" [(ngModel)]="hotel.sustainabilitySeal">{{t('Sello de sostenibilidad','Sustainability seal')}}</mat-checkbox>
+      <mat-form-field class="wide"><mat-label>{{t('Descripción de sostenibilidad','Sustainability description')}}</mat-label><textarea matInput name="sustainability" rows="3" [(ngModel)]="hotel.sustainabilityDescription" maxlength="1000"></textarea></mat-form-field>
+      <button mat-flat-button type="submit" [disabled]="busy()">{{t('Guardar hotel','Save hotel')}}</button>
+      <button mat-button type="button" (click)="deactivateHotel()">{{t('Dar de baja el hotel','Deactivate hotel')}}</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+}
+}
+</mat-tab-nav-panel>
+<hm-chat/>
+}
+</main>
+<footer>HotelMatch · <a href="/terms.html#{{lang()}}">{{t('Términos y condiciones','Terms and conditions')}}</a></footer>
