@@ -1,0 +1,11 @@
+.git
+.github
+.idea
+web
+docs
+entregables
+postman
+target
+.env*
+**/application-local.yml
+*.log

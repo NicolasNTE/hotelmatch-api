@@ -1,0 +1,12 @@
+# Despliegue en la nube con PostgreSQL gestionado (Neon). Las variables las define la plataforma; no hay secretos aquí.
+spring:
+  datasource:
+    url: jdbc:postgresql://${PGHOST_UNPOOLED:${PGHOST:localhost}}/${PGDATABASE:hotelmatch}?sslmode=require
+    username: ${PGUSER:hotelmatch}
+    password: ${PGPASSWORD:}
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 20000
+
+hotelmatch:
+  seed-demo-data: ${SEED_DEMO_DATA:true}
