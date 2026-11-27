@@ -13,7 +13,7 @@
             "index": "src/index.html",
             "tsConfig": "tsconfig.json",
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/theme.scss",
               "src/styles.css"
             ],
             "assets": [
