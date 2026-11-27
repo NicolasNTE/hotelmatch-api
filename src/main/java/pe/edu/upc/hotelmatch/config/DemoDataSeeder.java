@@ -129,6 +129,8 @@ public class DemoDataSeeder implements ApplicationRunner {
         room.setQuietScore(quiet);
         room.setViewScore(view);
         room.setSpaceScore(space);
+        // Foto de demostración servida por la aplicación web (web/public/assets/rooms).
+        room.setImageUrl("/assets/rooms/" + number + ".jpg");
         for (String amenityName : amenityNames) {
             room.getAmenities().add(new RoomAmenity(room, catalog.get(amenityName), null));
         }
