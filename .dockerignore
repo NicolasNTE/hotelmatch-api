@@ -1,0 +1,6 @@
+.git
+target
+.env
+**/application-local.yml
+entregables
+web

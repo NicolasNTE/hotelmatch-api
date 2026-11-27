@@ -12,3 +12,5 @@ application-local.yml
 *.log
 HELP.md
 .DS_Store
+.vercel
+.env*

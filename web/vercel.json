@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --no-audit --no-fund",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/hotelmatch/browser",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://hotelmatch-api.vercel.app/api/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

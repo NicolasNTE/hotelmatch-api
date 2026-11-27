@@ -1,0 +1,7 @@
+segmento,codigo,nombres_apellidos,edad,distrito,fecha,consentimiento,tarea,resultado_observado,apreciaciones,heuristica,severidad,captura,video_youtube,inicio_mm_ss,duracion_mm_ss,resumen,estado
+viajero,V01,,,,,,,,,,,,,,,,pendiente
+viajero,V02,,,,,,,,,,,,,,,,pendiente
+viajero,V03,,,,,,,,,,,,,,,,pendiente
+administrador,H01,,,,,,,,,,,,,,,,pendiente
+administrador,H02,,,,,,,,,,,,,,,,pendiente
+administrador,H03,,,,,,,,,,,,,,,,pendiente
