@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -43,6 +44,10 @@ public class DemoDataSeeder implements ApplicationRunner {
     private final RoomRepository rooms;
     private final UserRepository users;
     private final PasswordEncoder passwordEncoder;
+
+    /** En un despliegue público las cuentas demo deben usar otra clave: se define con DEMO_PASSWORD. */
+    @Value("${hotelmatch.demo-password:${DEMO_PASSWORD:}}")
+    private String configuredPassword;
 
     @Override
     @Transactional
@@ -107,7 +112,7 @@ public class DemoDataSeeder implements ApplicationRunner {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPasswordHash(passwordEncoder.encode(DEMO_PASSWORD));
+        user.setPasswordHash(passwordEncoder.encode(configuredPassword.isBlank() ? DEMO_PASSWORD : configuredPassword));
         user.setRole(role);
         user.setHotel(hotel);
         return user;

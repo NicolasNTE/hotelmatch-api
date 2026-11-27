@@ -5,10 +5,14 @@ spring:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/hotelmatch}
     username: ${DB_USER:hotelmatch}
     password: ${DB_PASSWORD:hotelmatch}
+  flyway:
+    # Una base creada antes por Hibernate se toma como versión 1 y solo se le aplican las migraciones siguientes.
+    baseline-on-migrate: true
+    baseline-version: 1
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         default_batch_fetch_size: 50
@@ -29,7 +33,7 @@ server:
 hotelmatch:
   chat:
     ollama-url: ${OLLAMA_URL:}
-    model: ${OLLAMA_MODEL:llama3.2:3b}
+    model: ${OLLAMA_MODEL:qwen2.5:7b}
   seed-demo-data: ${SEED_DEMO_DATA:false}
   cancellation-window-hours: 48
   security:
