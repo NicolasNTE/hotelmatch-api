@@ -30,7 +30,8 @@ public class ChatController {
     public record Question(@NotBlank @Size(max = 500) String message) {}
     public record Answer(String answer, String mode) {}
     @PostMapping
-    public Answer chat(@Valid @RequestBody Question question) {
+    public Answer chat(@Valid @RequestBody Question question,
+            @RequestHeader(value = "Accept-Language", required = false) String language) {
         if (!endpoint.isBlank()) {
             try {
                 String system = "Eres el asistente de HotelMatch. Responde brevemente en el idioma del usuario. "
@@ -56,11 +57,29 @@ public class ChatController {
             catch (Exception e) { /* The user can still access verified FAQ guidance. */ }
         }
         String text = question.message().toLowerCase(Locale.ROOT);
-        String answer = text.contains("cancel") ? "Cancela desde Mis reservas. Deben faltar más de 48 horas para el ingreso."
-                : text.contains("report") || text.contains("ingreso") ? "El administrador consulta Reportes y elige un período para descargar el PDF. El valor confirmado no representa pagos cobrados."
-                : text.contains("reserv") ? "Busca por fechas y huéspedes, elige una habitación y confirma la reserva. El sistema verifica disponibilidad antes de emitir el código."
-                : text.contains("prior") || text.contains("compat") ? "Selecciona de una a tres prioridades y los servicios deseados. El ranking muestra el porcentaje y el desglose por criterio."
+        boolean english = language != null && language.toLowerCase(Locale.ROOT).startsWith("en");
+        return new Answer(faq(text, english), "FAQ");
+    }
+
+    /** Respuestas fijas por palabra clave, en el idioma de la interfaz. */
+    private String faq(String text, boolean english) {
+        if (text.contains("cancel")) {
+            return english ? "Cancel from My bookings. There must be more than 48 hours left before check-in."
+                    : "Cancela desde Mis reservas. Deben faltar más de 48 horas para el ingreso.";
+        }
+        if (text.contains("report") || text.contains("ingreso") || text.contains("revenue")) {
+            return english ? "The administrator opens Reports and picks a period to download the PDF. The confirmed value is not collected payments."
+                    : "El administrador consulta Reportes y elige un período para descargar el PDF. El valor confirmado no representa pagos cobrados.";
+        }
+        if (text.contains("reserv") || text.contains("book")) {
+            return english ? "Search by dates and guests, choose a room and confirm. Availability is checked before the booking code is issued."
+                    : "Busca por fechas y huéspedes, elige una habitación y confirma la reserva. El sistema verifica disponibilidad antes de emitir el código.";
+        }
+        if (text.contains("prior") || text.contains("compat") || text.contains("match")) {
+            return english ? "Pick one to three priorities and the amenities you want. The ranking shows the percentage and the breakdown per criterion."
+                    : "Selecciona de una a tres prioridades y los servicios deseados. El ranking muestra el porcentaje y el desglose por criterio.";
+        }
+        return english ? "I can guide you on searches, compatibility, bookings, cancellations and reports. Check prices and availability on the app screens."
                 : "Puedo orientarte sobre búsquedas, compatibilidad, reservas, cancelaciones y reportes. Verifica los precios y la disponibilidad en las pantallas de la aplicación.";
-        return new Answer(answer, "FAQ");
     }
 }
