@@ -17,7 +17,9 @@ jobs:
         if: always()
         with:
           name: test-evidence
-          path: target/surefire-reports/
+          path: |
+            target/surefire-reports/
+            target/cucumber-report.html
   web:
     runs-on: ubuntu-latest
     defaults:
