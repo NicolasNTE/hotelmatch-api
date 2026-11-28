@@ -10,3 +10,7 @@ spring:
 
 hotelmatch:
   seed-demo-data: ${SEED_DEMO_DATA:true}
+
+# Vercel termina TLS en su proxy: sin esto OpenAPI publica el servidor como http y el navegador bloquea "Try it out".
+server:
+  forward-headers-strategy: framework
