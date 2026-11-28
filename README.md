@@ -142,3 +142,7 @@ CRUD de habitaciones/servicios/disponibilidad/tarifas y del flujo recomendación
 - **Vercel**: la API se publica con `Dockerfile.vercel` (perfil `cloud`) y la web desde `web/`, que reenvía `/api` a la
   API. Variables de la API: `JWT_SECRET`, `ALLOWED_ORIGINS`, `DEMO_PASSWORD`, `PORT` y las `PG*` de Neon.
 - **Postman**: [`postman/`](postman/).
+
+## Pruebas de aceptación
+
+Los escenarios de [`src/test/resources/features`](src/test/resources/features) están en Gherkin (español) y cada uno corresponde a un criterio de aceptación de las historias de usuario. Se ejecutan con `./mvnw test` y generan `target/cucumber-report.html`.

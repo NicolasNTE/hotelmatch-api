@@ -37,7 +37,7 @@ PR integrados: #1 (iam), #2 (rooms), #5 (booking), #6 (recommendation), #7 (inve
 del [README](../README.md#endpoints-crud-del-documento-de-alcance) y la documentación interactiva sale en
 `/swagger-ui.html` al ejecutar la aplicación.
 
-Pruebas (27/11/2026, JDK 17): 44, sin fallos, incluidas las migraciones sobre un PostgreSQL real. Se ejecutan en
+Pruebas (27/11/2026, JDK 17): 77, sin fallos: 44 unitarias y de integración (incluidas las migraciones sobre un PostgreSQL real) y 33 escenarios de aceptación en Gherkin. Se ejecutan en
 GitHub Actions junto con la compilación de la web.
 
 ## 3. Despliegue
